@@ -6,6 +6,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.util.FlxColor;
 import entities.Shoot;
+import entities.Guide;
 
 /**
  * ...
@@ -14,11 +15,12 @@ import entities.Shoot;
 class Player extends FlxSprite 
 {
 	private var bullets(get, null):FlxTypedGroup<Shoot>;
+	private var guide:Guide;
 	
-	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
+	public function new(g:Guide,?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
 	{
 		super(X, Y, SimpleGraphic);
-		
+		guide = g;
 		makeGraphic(16, 16, FlxColor.WHITE);
 		bullets = new FlxTypedGroup<Shoot>();
 		updateHitbox();
@@ -61,5 +63,10 @@ class Player extends FlxSprite
 	public function get_bullets():FlxTypedGroup<Shoot>
 	{
 		return bullets;
+	}
+	
+	public function get_guide(g:Guide)
+	{
+		guide = g;
 	}
 }
