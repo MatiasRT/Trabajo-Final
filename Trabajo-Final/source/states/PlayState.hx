@@ -28,20 +28,22 @@ class PlayState extends FlxState
 		
 		/* OGMO */
 		loader = new FlxOgmoLoader(AssetPaths.level__oel);
-		tileMap = loader.loadTilemap(AssetPaths.prueba__png, 16, 16, "Tiles");
+		tileMap = loader.loadTilemap(AssetPaths.Tiles_TP_Final__png, 16, 16, "Tiles");
 		bgColor = FlxColor.BLUE;
+		
 		
 		/* GUIDE */
 		/*guide = new Guide(FlxG.width / 2 , FlxG.height / 2);*/
-		guide = new Guide(FlxG.width / 2 , 10000);
-		//guide.velocity.y = Reg.velCamera;
+		guide = new Guide(FlxG.width / 2 , 9630);
+		guide.velocity.y = Reg.velCamera;
 		FlxG.camera.follow(guide);
 		
 		/* ENEMY */
 		eShoot = new FlxTypedGroup<Shoot>();
 		enemies = new FlxTypedGroup<Enemy>();
 		
-		
+		/* COLLISION */
+		FlxG.worldBounds.set(0, 0, tileMap.width, tileMap.height);
 		
 		/* ADDS */
 		add(guide);
@@ -55,6 +57,7 @@ class PlayState extends FlxState
 	{
 		super.update(elapsed);
 		FlxG.collide(enemies, player.get_bullets(), collideShootEnemy1);
+		/*FlxG.collide(player, tileMap);*/
 		player.get_guide(guide);
 	}
 	
@@ -81,7 +84,7 @@ class PlayState extends FlxState
 		}
 	}
 	
-	private function collideShootEnemy1(e:Enemy, s:Shoot):Void
+	private function collideShootEnemy1(e:Enemy, s:Shoot):Void //Fijarse los worldbounds, que estan jodiendo y el disparo tmb.
 	{
 		enemies.remove(e, true);
 		player.get_bullets().remove(s, true);
