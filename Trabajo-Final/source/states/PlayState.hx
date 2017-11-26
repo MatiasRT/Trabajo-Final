@@ -11,6 +11,8 @@ import entities.Player;
 import entities.Guide;
 import entities.Enemy;
 import entities.Enemy1;
+import entities.Enemy2;
+import entities.Enemy3;
 
 class PlayState extends FlxState
 {
@@ -19,7 +21,8 @@ class PlayState extends FlxState
 	private var tileMap:FlxTilemap;
 	private var guide:Guide;
 	private var enemies:FlxTypedGroup<Enemy>;
-	
+	private var enemiesFollow:FlxTypedGroup<Enemy2>;
+	private var enemiesTween:FlxTypedGroup<Enemy3>;
 	private var eShoot:FlxTypedGroup<Shoot>;
 	
 	override public function create():Void
@@ -41,6 +44,8 @@ class PlayState extends FlxState
 		/* ENEMY */
 		eShoot = new FlxTypedGroup<Shoot>();
 		enemies = new FlxTypedGroup<Enemy>();
+		enemiesFollow = new FlxTypedGroup<Enemy2>();
+		enemiesTween = new FlxTypedGroup<Enemy3>();
 		
 		/* COLLISION */
 		FlxG.worldBounds.set(0, 0, tileMap.width, tileMap.height);
@@ -57,8 +62,23 @@ class PlayState extends FlxState
 	{
 		super.update(elapsed);
 		FlxG.collide(enemies, player.get_bullets(), collideShootEnemy1);
+		FlxG.collide(enemiesFollow, player.get_bullets(), collideShootEnemy2);
+		FlxG.collide(enemiesTween, player.get_bullets(), collideShootEnemy3);
 		/*FlxG.collide(player, tileMap);*/
+		enemiesFollow.forEachAlive(checkEnemyVision);
 		player.get_guide(guide);
+	}
+	
+	/* VISION FOR ENEMY 2 (ENEMYFOLLOW) */
+	private function checkEnemyVision(e:Enemy2):Void
+	{
+		if (tileMap.ray(e.getMidpoint(), player.getMidpoint()))
+		{
+			e.seesPlayer = true;
+			e.playerPos.copyFrom(player.getMidpoint());
+		}
+		else
+			e.seesPlayer = false;
 	}
 	
 	private function entityCreator(entityName:String, entityData:Xml)
@@ -80,13 +100,37 @@ class PlayState extends FlxState
 				enemy1.y = y;
 				enemies.add(enemy1);
 				add(enemies);
-				
+			
+			case "Enemy-2":
+				var enemy2 = new Enemy2();
+				enemy2.x = x;
+				enemy2.y = y;
+				enemiesFollow.add(enemy2);
+				add(enemiesFollow);
+			
+			case "Enemy-3":
+				var enemy3 = new Enemy3(x, y);
+				enemiesTween.add(enemy3);
+				add(enemiesTween);
 		}
 	}
 	
+	/* ENEMIES COLLISION WITH PLAYER BULLETS */
 	private function collideShootEnemy1(e:Enemy, s:Shoot):Void //Fijarse los worldbounds, que estan jodiendo y el disparo tmb.
 	{
 		enemies.remove(e, true);
+		player.get_bullets().remove(s, true);
+	}
+	
+	private function collideShootEnemy2(e:Enemy2, s:Shoot):Void
+	{
+		enemiesFollow.remove(e, true);
+		player.get_bullets().remove(s, true);
+	}
+	
+	private function collideShootEnemy3(e:Enemy3, s:Shoot):Void
+	{
+		enemiesTween.remove(e, true);
 		player.get_bullets().remove(s, true);
 	}
 }
