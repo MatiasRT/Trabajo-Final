@@ -19,8 +19,7 @@ class Player extends FlxSprite
 	private var powerUp(get, null):Int;
 	private var pU:PowerUps;
 	private var doubleShoot:Bool;
-	
-	/*private var  verif:Bool;*/
+	private var  verif:Bool;
 	
 	public function new(g:Guide,?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
 	{
@@ -30,7 +29,7 @@ class Player extends FlxSprite
 		bullets = new FlxTypedGroup<Shoot>();
 		pU = new PowerUps();
 		doubleShoot = false;
-		/*verif = false;*/
+		verif = false;
 		updateHitbox();
 		powerUp = 0;
 	}
@@ -38,22 +37,19 @@ class Player extends FlxSprite
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
-		velocity.set(0, -80);
-		/*
 		if (!verif)
-			velocity.set(Reg.velCamera, 0);
+			velocity.set(0, -80);
 		else
 			velocity.set(0, 0);
-		*/
 		movement();
 		shoot();
 		activatePowerUp();
 	}
 	
-	/*public function verificador()
+	public function verificator()
 	{
 		verif = true;
-	}*/
+	}
 	
 	private function movement():Void
 	{

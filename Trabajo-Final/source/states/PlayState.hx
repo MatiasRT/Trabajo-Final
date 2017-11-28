@@ -15,6 +15,7 @@ import entities.Enemy;
 import entities.Enemy1;
 import entities.Enemy2;
 import entities.Enemy3;
+import entities.Boss;
 import entities.PowerUps;
 
 class PlayState extends FlxState
@@ -26,6 +27,7 @@ class PlayState extends FlxState
 	private var enemies:FlxTypedGroup<Enemy>;
 	private var enemiesFollow:FlxTypedGroup<Enemy2>;
 	private var enemiesTween:FlxTypedGroup<Enemy3>;
+	private var boss:Boss;
 	private var eShoot:FlxTypedGroup<Shoot>;
 	private var score:FlxText;
 	private var puntos:Int;
@@ -56,6 +58,7 @@ class PlayState extends FlxState
 		enemies = new FlxTypedGroup<Enemy>();
 		enemiesFollow = new FlxTypedGroup<Enemy2>();
 		enemiesTween = new FlxTypedGroup<Enemy3>();
+		boss = new Boss();
 		
 		/* COLLISION */
 		FlxG.worldBounds.set(0, 0, tileMap.width, tileMap.height);
@@ -86,13 +89,14 @@ class PlayState extends FlxState
 		FlxG.collide(enemies, player.get_bullets(), collideShootEnemy1);
 		FlxG.collide(enemiesFollow, player.get_bullets(), collideShootEnemy2);
 		FlxG.collide(enemiesTween, player.get_bullets(), collideShootEnemy3);
+		FlxG.overlap(boss, player.get_bullets(), collideShootBoss);
 		FlxG.collide(powerUps, player, collidePlayerPowerUps);
-		/*FlxG.collide(player, tileMap);*/
-		if (FlxG.keys.justPressed.R)
-			FlxG.resetState();
 		scoreInScreen();
+		bossBattle();
 		enemiesFollow.forEachAlive(checkEnemyVision);
 		player.get_guide(guide);
+		if (FlxG.keys.justPressed.R)
+			FlxG.resetState();
 	}
 	
 	/* VISION FOR ENEMY 2 (ENEMYFOLLOW) */
@@ -138,6 +142,11 @@ class PlayState extends FlxState
 				var enemy3 = new Enemy3(powerUps,x, y);
 				enemiesTween.add(enemy3);
 				add(enemiesTween);
+			
+			case "Boss":
+				boss.x = x;
+				boss.y = y;
+				add(boss);
 		}
 	}
 	
@@ -164,6 +173,20 @@ class PlayState extends FlxState
 		scoreMeter();
 	}
 	
+	private function collideShootBoss(b:Boss, s:Shoot):Void
+	{
+		b.loseLives();
+		player.get_bullets().remove(s, true);
+		if (boss.get_vidas() == 0)
+		{
+			scoreMeter();
+			boss.kill();
+			if (puntos > Reg.highscore)
+				Reg.highscore = puntos;
+			/*FlxG.switchState();*/
+		}
+	}
+	
 	/* PLAYER COLISSION WITH OBJECTS */
 	private function collidePlayerPowerUps(pU:PowerUps, p:Player):Void
 	{
@@ -180,5 +203,16 @@ class PlayState extends FlxState
 	public function scoreMeter()
 	{
 		puntos += 100;
+	}
+	
+	/* BOSS BATTLE */
+	public function bossBattle()
+	{
+		if (FlxG.collide(guide, boss))
+		{
+			//guide.velocity.y = 0;
+			Reg.velCamera == 0;
+			player.verificator();
+		}
 	}
 }

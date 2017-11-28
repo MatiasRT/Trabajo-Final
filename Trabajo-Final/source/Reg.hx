@@ -20,6 +20,6 @@ class Reg
 	//static public var velBulletMissileX:Float = 150;
 	//static public var velBulletMissileY:Float = 150;
 	static public var velEnemy:Float = 35;
-	//static public var highscore:Int = 0;
+	static public var highscore:Int = 0;
 	
 }
