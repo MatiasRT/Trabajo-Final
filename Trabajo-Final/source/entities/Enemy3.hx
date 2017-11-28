@@ -14,9 +14,9 @@ import flixel.util.FlxColor;
 class Enemy3 extends Enemy 
 {
 
-	public function new(/*pU:FlxTypedGroup<PowerUp>*/?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
+	public function new(pU:FlxTypedGroup<PowerUps>,?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
 	{
-		super(X, Y, SimpleGraphic);
+		super(pU,X, Y, SimpleGraphic);
 		makeGraphic(16, 16, FlxColor.WHITE);
 		movement();
 	}

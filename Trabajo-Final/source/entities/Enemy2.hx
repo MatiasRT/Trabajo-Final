@@ -22,9 +22,9 @@ class Enemy2 extends Enemy
 	public var seesPlayer:Bool = false;
 	public var playerPos(default, null):FlxPoint;
 	
-	public function new(/*pU:FlxTypedGroup<PowerUp>,*/?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
+	public function new(pU:FlxTypedGroup<PowerUps>,?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
 	{
-		super(X, Y, SimpleGraphic);	
+		super(pU,X, Y, SimpleGraphic);	
 		makeGraphic(16, 16, FlxColor.WHITE);
 		
 		_brain = new FSM(idle);

@@ -14,9 +14,9 @@ class Enemy1 extends Enemy
 	public var yOriginal:Float;
 	private var eShoot:FlxTypedGroup<Shoot>;
 	
-	public function new(eS:FlxTypedGroup<Shoot>,?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
+	public function new(pU:FlxTypedGroup<PowerUps>,eS:FlxTypedGroup<Shoot>,?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
 	{
-		super(X, Y, SimpleGraphic);
+		super(pU,X, Y, SimpleGraphic);
 		eShoot = eS;
 		makeGraphic(16, 16, FlxColor.RED);
 		yOriginal = Y;

@@ -7,12 +7,15 @@ import flixel.addons.editors.ogmo.FlxOgmoLoader;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.tile.FlxTilemap;
 import flixel.util.FlxColor;
+import flixel.text.FlxText;
+import flixel.ui.FlxBar;
 import entities.Player;
 import entities.Guide;
 import entities.Enemy;
 import entities.Enemy1;
 import entities.Enemy2;
 import entities.Enemy3;
+import entities.PowerUps;
 
 class PlayState extends FlxState
 {
@@ -24,6 +27,10 @@ class PlayState extends FlxState
 	private var enemiesFollow:FlxTypedGroup<Enemy2>;
 	private var enemiesTween:FlxTypedGroup<Enemy3>;
 	private var eShoot:FlxTypedGroup<Shoot>;
+	private var score:FlxText;
+	private var puntos:Int;
+	private var powerUps:FlxTypedGroup<PowerUps>;
+	private var powerupsBar:FlxBar;
 	
 	override public function create():Void
 	{
@@ -41,6 +48,9 @@ class PlayState extends FlxState
 		guide.velocity.y = Reg.velCamera;
 		FlxG.camera.follow(guide);
 		
+		/* PLAYER */
+		powerUps = new FlxTypedGroup<PowerUps>();
+		
 		/* ENEMY */
 		eShoot = new FlxTypedGroup<Shoot>();
 		enemies = new FlxTypedGroup<Enemy>();
@@ -50,9 +60,21 @@ class PlayState extends FlxState
 		/* COLLISION */
 		FlxG.worldBounds.set(0, 0, tileMap.width, tileMap.height);
 		
+		/* HUD */
+		powerupsBar = new FlxBar(520, 5, FlxBarFillDirection.LEFT_TO_RIGHT, 100, 20, powerUps, "powerUp", 0, 2, true);
+		powerupsBar.scrollFactor.x = 0;
+		powerupsBar.scrollFactor.y = 0;
+		score = new FlxText (0, 0, 0, "SCORE", 16);
+		score.scrollFactor.x = 0;
+		score.scrollFactor.y = 0;
+		puntos = 0;
+		
+		
 		/* ADDS */
 		add(guide);
 		add(tileMap);
+		add(score);
+		add(powerupsBar);
 		
 		/* ENTITY CREATOR */
 		loader.loadEntities(entityCreator, "Entities");
@@ -64,7 +86,11 @@ class PlayState extends FlxState
 		FlxG.collide(enemies, player.get_bullets(), collideShootEnemy1);
 		FlxG.collide(enemiesFollow, player.get_bullets(), collideShootEnemy2);
 		FlxG.collide(enemiesTween, player.get_bullets(), collideShootEnemy3);
+		FlxG.collide(powerUps, player, collidePlayerPowerUps);
 		/*FlxG.collide(player, tileMap);*/
+		if (FlxG.keys.justPressed.R)
+			FlxG.resetState();
+		scoreInScreen();
 		enemiesFollow.forEachAlive(checkEnemyVision);
 		player.get_guide(guide);
 	}
@@ -95,21 +121,21 @@ class PlayState extends FlxState
 				add(player);
 			
 			case "Enemy-1":
-				var enemy1 = new Enemy1(eShoot);
+				var enemy1 = new Enemy1(powerUps, eShoot);
 				enemy1.x = x;
 				enemy1.y = y;
 				enemies.add(enemy1);
 				add(enemies);
 			
 			case "Enemy-2":
-				var enemy2 = new Enemy2();
+				var enemy2 = new Enemy2(powerUps);
 				enemy2.x = x;
 				enemy2.y = y;
 				enemiesFollow.add(enemy2);
 				add(enemiesFollow);
 			
 			case "Enemy-3":
-				var enemy3 = new Enemy3(x, y);
+				var enemy3 = new Enemy3(powerUps,x, y);
 				enemiesTween.add(enemy3);
 				add(enemiesTween);
 		}
@@ -118,19 +144,41 @@ class PlayState extends FlxState
 	/* ENEMIES COLLISION WITH PLAYER BULLETS */
 	private function collideShootEnemy1(e:Enemy, s:Shoot):Void //Fijarse los worldbounds, que estan jodiendo y el disparo tmb.
 	{
+		e.dropPowerUp();
 		enemies.remove(e, true);
 		player.get_bullets().remove(s, true);
+		scoreMeter();
 	}
 	
 	private function collideShootEnemy2(e:Enemy2, s:Shoot):Void
 	{
 		enemiesFollow.remove(e, true);
 		player.get_bullets().remove(s, true);
+		scoreMeter();
 	}
 	
 	private function collideShootEnemy3(e:Enemy3, s:Shoot):Void
 	{
 		enemiesTween.remove(e, true);
 		player.get_bullets().remove(s, true);
+		scoreMeter();
+	}
+	
+	/* PLAYER COLISSION WITH OBJECTS */
+	private function collidePlayerPowerUps(pU:PowerUps, p:Player):Void
+	{
+		powerUps.remove(pU, true );
+		player.getPowerUp();
+	}
+	
+	/* HUD */
+	public function scoreInScreen()
+	{
+		score.text = "SCORE " + puntos;
+	}
+	
+	public function scoreMeter()
+	{
+		puntos += 100;
 	}
 }

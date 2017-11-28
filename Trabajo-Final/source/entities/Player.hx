@@ -16,6 +16,10 @@ class Player extends FlxSprite
 {
 	private var bullets(get, null):FlxTypedGroup<Shoot>;
 	private var guide:Guide;
+	private var powerUp(get, null):Int;
+	private var pU:PowerUps;
+	private var doubleShoot:Bool;
+	
 	/*private var  verif:Bool;*/
 	
 	public function new(g:Guide,?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
@@ -24,13 +28,17 @@ class Player extends FlxSprite
 		guide = g;
 		makeGraphic(16, 16, FlxColor.WHITE);
 		bullets = new FlxTypedGroup<Shoot>();
+		pU = new PowerUps();
+		doubleShoot = false;
 		/*verif = false;*/
 		updateHitbox();
+		powerUp = 0;
 	}
 	
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
+		velocity.set(0, -80);
 		/*
 		if (!verif)
 			velocity.set(Reg.velCamera, 0);
@@ -39,6 +47,7 @@ class Player extends FlxSprite
 		*/
 		movement();
 		shoot();
+		activatePowerUp();
 	}
 	
 	/*public function verificador()
@@ -64,7 +73,7 @@ class Player extends FlxSprite
 			}
 		}
 		
-		if (FlxG.keys.pressed.UP)
+		/*if (FlxG.keys.pressed.UP)
 		{
 			if (y > 0)
 			{
@@ -78,7 +87,7 @@ class Player extends FlxSprite
 			{
 				velocity.y += Reg.velPlayer;
 			}
-		}
+		}*/
 	}
 	
 	private function shoot():Void
@@ -86,14 +95,49 @@ class Player extends FlxSprite
 		
 		if (FlxG.keys.justPressed.SPACE)
 		{
-			var bullet = new Shoot(this.x + 5, this.y + 5);
+			var bullet = new Shoot(this.x + 3, this.y + 5);
 			bullets.add(bullet);
 			FlxG.state.add(bullets);
 			
 			bullet.velocity.y = Reg.velBullet;
 			
+			if (doubleShoot == true)
+			{
+				var doubleBullet1 = new Shoot(this.x + 40, this.y + 5);
+				var doubleBullet2 = new Shoot(this.x - 40, this.y + 5);
+				bullets.add(doubleBullet1);
+				bullets.add(doubleBullet2);
+				FlxG.state.add(bullets);
+				
+				doubleBullet1.velocity.y = Reg.velBulletDoubleY;
+				doubleBullet2.velocity.y = Reg.velBulletDoubleY;
+			}
 		}
 		
+	}
+	
+	private function activatePowerUp():Void
+	{
+		if (FlxG.keys.justPressed.Z)
+		{
+			if (powerUp == 1)
+				pU.speedUp();
+			
+			if (powerUp == 2)
+				doubleShoot = true;
+			
+			powerUp = 0;
+		}
+	}
+	
+	public function getPowerUp():Void
+	{
+		powerUp += 1;
+	}
+	
+	public function get_powerUp():Int
+	{
+		return powerUp;
 	}
 	
 	public function get_bullets():FlxTypedGroup<Shoot>
