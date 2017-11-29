@@ -64,7 +64,7 @@ class PlayState extends FlxState
 		FlxG.worldBounds.set(0, 0, tileMap.width, tileMap.height);
 		
 		/* HUD */
-		powerupsBar = new FlxBar(520, 5, FlxBarFillDirection.LEFT_TO_RIGHT, 100, 20, powerUps, "powerUp", 0, 2, true);
+		powerupsBar = new FlxBar(520, 5, FlxBarFillDirection.LEFT_TO_RIGHT, 100, 20, powerUps, "powerUps", 0, 2, true);
 		powerupsBar.scrollFactor.x = 0;
 		powerupsBar.scrollFactor.y = 0;
 		score = new FlxText (0, 0, 0, "SCORE", 16);
@@ -86,6 +86,7 @@ class PlayState extends FlxState
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
+		Reg.limiteY += Reg.velCamera * elapsed;
 		FlxG.collide(enemies, player.get_bullets(), collideShootEnemy1);
 		FlxG.collide(enemiesFollow, player.get_bullets(), collideShootEnemy2);
 		FlxG.collide(enemiesTween, player.get_bullets(), collideShootEnemy3);
@@ -210,8 +211,10 @@ class PlayState extends FlxState
 	{
 		if (FlxG.collide(guide, boss))
 		{
+			guide.velocity.y = 0;
 			//guide.velocity.y = 0;
-			Reg.velCamera == 0;
+			//Reg.velCamera = 0;
+			//Reg.velPlayer = 0;
 			player.verificator();
 		}
 	}

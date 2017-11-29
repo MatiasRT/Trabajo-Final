@@ -638,7 +638,7 @@
     <Enemy-1 id="11" x="432" y="9664" />
     <Enemy-1 id="12" x="464" y="9664" />
     <Enemy-1 id="13" x="128" y="9664" />
-    <Player id="14" x="304" y="9904" />
     <Boss id="2" x="304" y="7456" />
+    <Player id="14" x="304" y="9888" />
   </Entities>
 </level>
