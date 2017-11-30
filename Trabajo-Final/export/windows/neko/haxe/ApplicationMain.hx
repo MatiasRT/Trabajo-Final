@@ -515,7 +515,7 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "374",
+			build: "394",
 			company: "Matias Ruiz Torres",
 			file: "Trabajo-Final",
 			fps: 60,

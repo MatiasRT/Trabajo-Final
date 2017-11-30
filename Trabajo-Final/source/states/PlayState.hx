@@ -201,7 +201,7 @@ class PlayState extends FlxState
 			boss.kill();
 			if (puntos > Reg.highscore)
 				Reg.highscore = puntos;
-			FlxG.switchState(new WinState());
+			//FlxG.switchState(new WinState());
 		}
 	}
 	
@@ -235,7 +235,7 @@ class PlayState extends FlxState
 			//Reg.velCamera = 0;
 			//Reg.velPlayer = 0;
 			player.verificator();
-			boss.y = 170;
+			//boss.y = 656;
 		}
 	}
 }

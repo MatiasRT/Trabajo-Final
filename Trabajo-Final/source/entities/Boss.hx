@@ -18,8 +18,12 @@ class Boss extends FlxSprite
 	{
 		super(X, Y, SimpleGraphic);
 		makeGraphic(16, 16, FlxColor.GREEN);
+		loadGraphic(AssetPaths.Death_Star__png, false, 1500, 1500);
+		//scale.set(0.5, 0.5);
 		timer = 0;
 		vidas = 100;
+		//height = height / 2;
+		//offset.y = 300;
 	}
 	
 	override public function update(elapsed:Float):Void
