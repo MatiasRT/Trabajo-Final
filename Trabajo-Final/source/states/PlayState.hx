@@ -3,6 +3,7 @@ package states;
 import entities.Shoot;
 import flixel.FlxG;
 import flixel.FlxState;
+import flixel.FlxSubState;
 import flixel.addons.editors.ogmo.FlxOgmoLoader;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.tile.FlxTilemap;
@@ -34,6 +35,7 @@ class PlayState extends FlxState
 	private var powerUps:FlxTypedGroup<PowerUps>;
 	private var powerupsBar:FlxBar;
 	
+	
 	override public function create():Void
 	{
 		super.create();
@@ -46,9 +48,7 @@ class PlayState extends FlxState
 		
 		/* GUIDE */
 		/*guide = new Guide(FlxG.width / 2 , FlxG.height / 2);*/
-		guide = new Guide(FlxG.width / 2 , 9630);
-		guide.velocity.y = Reg.velCamera;
-		FlxG.camera.follow(guide);
+		
 		
 		/* PLAYER */
 		powerUps = new FlxTypedGroup<PowerUps>();
@@ -71,10 +71,10 @@ class PlayState extends FlxState
 		score.scrollFactor.x = 0;
 		score.scrollFactor.y = 0;
 		puntos = 0;
+		FlxG.mouse.visible = false;
 		
 		
 		/* ADDS */
-		add(guide);
 		add(tileMap);
 		add(score);
 		add(powerupsBar);
@@ -98,6 +98,17 @@ class PlayState extends FlxState
 		player.get_guide(guide);
 		if (FlxG.keys.justPressed.R)
 			FlxG.resetState();
+		if (FlxG.keys.justPressed.ESCAPE)
+			FlxG.switchState(new MenuState());
+		if (FlxG.keys.justPressed.P)
+			pauseState();
+	}
+	
+	/* SUBSTATE */
+	private function pauseState():Void
+	{
+		var substate:PauseSubState = new PauseSubState(FlxColor.TRANSPARENT);
+		openSubState(substate);
 	}
 	
 	/* VISION FOR ENEMY 2 (ENEMYFOLLOW) */
@@ -148,6 +159,12 @@ class PlayState extends FlxState
 				boss.x = x;
 				boss.y = y;
 				add(boss);
+			
+			case "Guide":
+				guide = new Guide(x , y); //9630
+				//guide.velocity.y = Reg.velCamera;
+				add(guide);
+				FlxG.camera.follow(guide);
 		}
 	}
 	
@@ -184,7 +201,7 @@ class PlayState extends FlxState
 			boss.kill();
 			if (puntos > Reg.highscore)
 				Reg.highscore = puntos;
-			/*FlxG.switchState();*/
+			FlxG.switchState(new WinState());
 		}
 	}
 	
@@ -209,13 +226,16 @@ class PlayState extends FlxState
 	/* BOSS BATTLE */
 	public function bossBattle()
 	{
-		if (FlxG.collide(guide, boss))
+		if (FlxG.overlap(guide, boss))
 		{
 			guide.velocity.y = 0;
+			boss.velocity.x = -50;
+			guide.kill();
 			//guide.velocity.y = 0;
 			//Reg.velCamera = 0;
 			//Reg.velPlayer = 0;
 			player.verificator();
+			boss.y = 170;
 		}
 	}
 }

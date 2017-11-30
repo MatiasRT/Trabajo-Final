@@ -18,7 +18,6 @@ class Boss extends FlxSprite
 	{
 		super(X, Y, SimpleGraphic);
 		makeGraphic(16, 16, FlxColor.GREEN);
-		velocity.x = -10;
 		timer = 0;
 		vidas = 100;
 	}
@@ -32,11 +31,11 @@ class Boss extends FlxSprite
 	
 	function movement():Void
 	{
-		if (x > FlxG.width - 24 - width)
-			velocity.x -= 10;
+		if (x > FlxG.width - width)
+			velocity.x -= 50;
 		
 		if (x <= 0)
-		velocity.y += 10;
+		velocity.x += 50;
 	}
 	
 	public function loseLives():Void

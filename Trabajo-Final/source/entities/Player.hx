@@ -26,7 +26,7 @@ class Player extends FlxSprite
 	private var powerUp(get, null):Int;
 	private var pU:PowerUps;
 	private var doubleShoot:Bool;
-	private var  verif:Bool;
+	private var verif:Bool;
 	public var currentState(get, null):States;
 	
 	public function new(g:Guide,?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
@@ -132,8 +132,8 @@ class Player extends FlxSprite
 			
 			if (doubleShoot == true)
 			{
-				var doubleBullet1 = new Shoot(this.x + 84, this.y + 40);
-				var doubleBullet2 = new Shoot(this.x + 2, this.y + 40);
+				var doubleBullet1 = new Shoot(this.x + 84, this.y - 40);
+				var doubleBullet2 = new Shoot(this.x + 2, this.y - 40);
 				bullets.add(doubleBullet1);
 				bullets.add(doubleBullet2);
 				FlxG.state.add(bullets);
