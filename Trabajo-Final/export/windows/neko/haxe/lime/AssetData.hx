@@ -54,6 +54,14 @@ class AssetData {
 			type.set ("assets/images/Xwing.png", Reflect.field (AssetType, "image".toUpperCase ()));
 			path.set ("assets/music/music-goes-here.txt", "assets/music/music-goes-here.txt");
 			type.set ("assets/music/music-goes-here.txt", Reflect.field (AssetType, "text".toUpperCase ()));
+			path.set ("assets/music/Star-wars-lose.ogg", "assets/music/Star-wars-lose.ogg");
+			type.set ("assets/music/Star-wars-lose.ogg", Reflect.field (AssetType, "music".toUpperCase ()));
+			path.set ("assets/music/Star-wars-menu.ogg", "assets/music/Star-wars-menu.ogg");
+			type.set ("assets/music/Star-wars-menu.ogg", Reflect.field (AssetType, "music".toUpperCase ()));
+			path.set ("assets/music/Star-wars-playstate.ogg", "assets/music/Star-wars-playstate.ogg");
+			type.set ("assets/music/Star-wars-playstate.ogg", Reflect.field (AssetType, "music".toUpperCase ()));
+			path.set ("assets/music/Star-wars-win.ogg", "assets/music/Star-wars-win.ogg");
+			type.set ("assets/music/Star-wars-win.ogg", Reflect.field (AssetType, "music".toUpperCase ()));
 			path.set ("assets/sounds/sounds-go-here.txt", "assets/sounds/sounds-go-here.txt");
 			type.set ("assets/sounds/sounds-go-here.txt", Reflect.field (AssetType, "text".toUpperCase ()));
 			path.set ("flixel/sounds/beep.ogg", "flixel/sounds/beep.ogg");

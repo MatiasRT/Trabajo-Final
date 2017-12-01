@@ -25,9 +25,12 @@ class MenuState extends FlxState
 		var x:Int = Math.floor(FlxG.width / 2 - 40);
 		companyName = new FlxText (220, 30, 0, "A Matias Ruiz Torres Game", 12);
 		var botonNuevoJuego = new FlxButton(x, 400, "New game", nuevo);
+		var botonOpcion = new FlxButton(x, 450, "Optios", opcion);
 		var botonSalir = new FlxButton(x, 500, "Exit", salida);
+		FlxG.sound.play(AssetPaths.Star_wars_menu__ogg, 1, true);
 		add(starwars);
 		add(botonNuevoJuego);
+		add(botonOpcion);
 		add(botonSalir);
 		add(companyName);
 		
@@ -43,4 +46,8 @@ class MenuState extends FlxState
 		Lib.close();
 	}
 	
+	private function opcion()
+	{
+		FlxG.switchState(new OptionsStates());
+	}
 }

@@ -3,6 +3,7 @@ package entities;
 import entities.Player.States;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.addons.effects.FlxTrail;
 import flixel.effects.FlxFlicker;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.system.FlxAssets.FlxGraphicAsset;
@@ -146,7 +147,7 @@ class Player extends FlxSprite
 			if (powerUp == 2)
 			{
 				doubleShoot = true;
-				var double = new FlxText(x, y , 0, "DOUBLE SHOOT", 18, true);
+				var double = new FlxText(x, y , 0, "TRIPLE SHOOT", 18, true);
 				FlxG.state.add(double);
 			}
 			

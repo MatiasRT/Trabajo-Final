@@ -40,7 +40,6 @@ class PlayState extends FlxState
 	private var bossBar:FlxBar;
 	private var bShoot:FlxTypedGroup<BossShoot>;
 	private var background:FlxBackdrop;
-	//private var trail:FlxTrail;
 	
 	override public function create():Void
 	{
@@ -50,12 +49,6 @@ class PlayState extends FlxState
 		/* OGMO */
 		loader = new FlxOgmoLoader(AssetPaths.level__oel);
 		tileMap = loader.loadTilemap(AssetPaths.Tiles_TP_Final__png, 16, 16, "Tiles");
-		//bgColor = FlxColor.BLACK;
-		
-		
-		/* GUIDE */
-		/*guide = new Guide(FlxG.width / 2 , FlxG.height / 2);*/
-		
 		
 		/* PLAYER */
 		powerUps = new FlxTypedGroup<PowerUps>();
@@ -72,21 +65,19 @@ class PlayState extends FlxState
 		FlxG.worldBounds.set(0, 0, tileMap.width, tileMap.height);
 		
 		/* HUD */
-		//powerupsBar = new FlxBar(520, 5, FlxBarFillDirection.LEFT_TO_RIGHT, 100, 20, powerUps, "powerUps", 0, 2, true);
-		//powerupsBar.scrollFactor.x = 0;
-		//powerupsBar.scrollFactor.y = 0;
 		score = new FlxText (0, 0, 0, "SCORE", 16);
 		score.scrollFactor.x = 0;
 		score.scrollFactor.y = 0;
 		puntos = 0;
 		background = new FlxBackdrop(AssetPaths.Fondo__png);
 		
+		/* MUSIC */
+		FlxG.sound.play(AssetPaths.Star_wars_playstate__ogg, 1, true);
 		
 		/* ADDS */
 		add(background);
 		add(tileMap);
 		add(score);
-		//add(powerupsBar);
 		
 		/* ENTITY CREATOR */
 		loader.loadEntities(entityCreator, "Entities");
@@ -163,10 +154,8 @@ class PlayState extends FlxState
 				var enemy2 = new Enemy2(powerUps);
 				enemy2.x = x;
 				enemy2.y = y;
-				//trail = new FlxTrail(enemy2, null, 100, 10, 0.5, 0.2);
 				enemiesFollow.add(enemy2);
 				add(enemiesFollow);
-				//add(trail);
 			
 			case "Enemy-3":
 				var enemy3 = new Enemy3(powerUps, x, y);
@@ -179,15 +168,14 @@ class PlayState extends FlxState
 				add(boss);
 			
 			case "Guide":
-				guide = new Guide(x , y); //9630
-				//guide.velocity.y = Reg.velCamera;
+				guide = new Guide(x , y);
 				add(guide);
 				FlxG.camera.follow(guide);
 		}
 	}
 	
 	/* ENEMIES COLLISION WITH PLAYER BULLETS */
-	private function collideShootEnemy1(e:Enemy, s:Shoot):Void //Fijarse los worldbounds, que estan jodiendo y el disparo tmb.
+	private function collideShootEnemy1(e:Enemy, s:Shoot):Void
 	{
 		e.dropPowerUp();
 		enemies.remove(e, true);
@@ -197,6 +185,7 @@ class PlayState extends FlxState
 	
 	private function collideShootEnemy2(e:Enemy2, s:Shoot):Void
 	{
+		e.dropPowerUp();
 		enemiesFollow.remove(e, true);
 		player.get_bullets().remove(s, true);
 		scoreMeter();
@@ -204,6 +193,7 @@ class PlayState extends FlxState
 	
 	private function collideShootEnemy3(e:Enemy3, s:Shoot):Void
 	{
+		e.dropPowerUp();
 		enemiesTween.remove(e, true);
 		player.get_bullets().remove(s, true);
 		scoreMeter();
@@ -265,7 +255,6 @@ class PlayState extends FlxState
 	{
 		if (player.get_lives()<=0)
 		{
-			//Reg.limiteX = 0;
 			FlxG.switchState(new LoseState());
 		}
 	}
@@ -299,11 +288,7 @@ class PlayState extends FlxState
 			guide.velocity.y = 0;
 			boss.velocity.x = -50;
 			guide.kill();
-			//guide.velocity.y = 0;
-			//Reg.velCamera = 0;
-			//Reg.velPlayer = 0;
 			player.verificator();
-			//boss.y = 656;
 			add(bossBar);
 		}
 	}

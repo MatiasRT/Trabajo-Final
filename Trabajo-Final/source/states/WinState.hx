@@ -23,9 +23,10 @@ class WinState extends FlxState
 		bgColor = FlxColor.CYAN;
 		var x:Int = Math.floor(FlxG.width / 2 - 40);
 		ganaste = new FlxText (35, 20, 0, "¡You Win!", 28); 
-		var win = new FlxSprite(x - 450 , 50, AssetPaths.Jedi__png);
+		var win = new FlxSprite(x - 450 , -20, AssetPaths.Jedi__png);
 		var botonNuevoJuego = new FlxButton(x, 100, "Go to Menu", menu);
 		highscore = new FlxText(40, 200, 0, "HighScore: " + Reg.highscore, 14);
+		FlxG.sound.play(AssetPaths.Star_wars_win__ogg, 1, true);
 		add(win);
 		add(botonNuevoJuego);
 		add(ganaste);
