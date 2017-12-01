@@ -15,8 +15,8 @@ class Guide extends FlxSprite
 	{
 		super(X, Y, SimpleGraphic);
 		makeGraphic(1, 1, FlxColor.BROWN);
-		//velocity.y = Reg.velCamera;
-		velocity.y = -600;
+		velocity.y = Reg.velCamera;
+		//velocity.y = -600;
 	}
 
 	override function update (elapsed:Float):Void

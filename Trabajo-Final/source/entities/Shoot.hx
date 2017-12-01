@@ -22,12 +22,9 @@ class Shoot extends FlxSprite
 	{
 		super.update(elapsed);
 		
-		//if (y>Reg.limiteY+FlxG.height) 
-			//kill();
-		//
-		//if (x<0) 
-		//{
-			//kill();
-		//}//El disparo no muere cuando esta fuera de la pantalla.
+		if (y > FlxG.camera.scroll.y + FlxG.height)
+			destroy();
+		if (y < FlxG.camera.scroll.y)
+			destroy();
 	}
 }

@@ -26,10 +26,13 @@ class Enemy1 extends Enemy
 	
 	override public function update(elapsed:Float):Void
 	{
-		super.update(elapsed);
-		movement();
-		shoot(elapsed);
-		timer++;
+		if (isOnScreen())
+		{
+			super.update(elapsed);
+			movement();
+			shoot(elapsed);
+			timer++;
+		}
 	}
 	
 	private function movement()

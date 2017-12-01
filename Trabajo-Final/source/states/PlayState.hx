@@ -4,6 +4,7 @@ import entities.Shoot;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.FlxSubState;
+import flixel.addons.display.FlxBackdrop;
 import flixel.addons.editors.ogmo.FlxOgmoLoader;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.tile.FlxTilemap;
@@ -35,7 +36,6 @@ class PlayState extends FlxState
 	private var powerUps:FlxTypedGroup<PowerUps>;
 	private var powerupsBar:FlxBar;
 	
-	
 	override public function create():Void
 	{
 		super.create();
@@ -43,7 +43,7 @@ class PlayState extends FlxState
 		/* OGMO */
 		loader = new FlxOgmoLoader(AssetPaths.level__oel);
 		tileMap = loader.loadTilemap(AssetPaths.Tiles_TP_Final__png, 16, 16, "Tiles");
-		bgColor = FlxColor.BLUE;
+		bgColor = FlxColor.BLACK;
 		
 		
 		/* GUIDE */
@@ -73,7 +73,6 @@ class PlayState extends FlxState
 		puntos = 0;
 		FlxG.mouse.visible = false;
 		
-		
 		/* ADDS */
 		add(tileMap);
 		add(score);
@@ -92,8 +91,14 @@ class PlayState extends FlxState
 		FlxG.collide(enemiesTween, player.get_bullets(), collideShootEnemy3);
 		FlxG.overlap(boss, player.get_bullets(), collideShootBoss);
 		FlxG.collide(powerUps, player, collidePlayerPowerUps);
+		FlxG.collide(enemies, player, collideEnemyPlayer);
+		FlxG.collide(eShoot, player, collideEnemyshootPlayer);
+		FlxG.collide(boss, player, collideBossPlayer);
+		FlxG.collide(enemiesFollow, player, collideEnemy2Player);
+		FlxG.collide(enemiesTween, player, collideEnemy3Player);
 		scoreInScreen();
 		bossBattle();
+		checkLose();
 		enemiesFollow.forEachAlive(checkEnemyVision);
 		player.get_guide(guide);
 		if (FlxG.keys.justPressed.R)
@@ -204,6 +209,50 @@ class PlayState extends FlxState
 			//FlxG.switchState(new WinState());
 		}
 	}
+	
+	/* PLAYER COLLISION WITH ENEMIES */
+	private function collideEnemyPlayer(e:Enemy, p:Player)
+	{
+		enemies.remove(e, true);
+		player.die();
+	}
+	
+	private function collideEnemyshootPlayer(s:Shoot, p:Player):Void
+	{
+		eShoot.remove(s, true);
+		player.die();
+	}
+	
+	private function collideEnemy2Player(e:Enemy2, p:Player):Void
+	{
+		enemiesFollow.remove(e, true);
+		player.die();
+	}
+	
+	private function collideEnemy3Player(e:Enemy3, p:Player):Void
+	{
+		enemiesTween.remove(e, true);
+		player.die();
+	}
+	
+	private function collideBossPlayer(b:Boss, p:Player):Void
+	{
+		player.die();
+	}
+	
+	private function checkLose():Void
+	{
+		if (player.get_lives()<=0)
+		{
+			//Reg.limiteX = 0;
+			FlxG.switchState(new LoseState());
+		}
+	}
+	
+	
+	
+	
+	
 	
 	/* PLAYER COLISSION WITH OBJECTS */
 	private function collidePlayerPowerUps(pU:PowerUps, p:Player):Void

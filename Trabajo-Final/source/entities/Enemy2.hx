@@ -34,8 +34,11 @@ class Enemy2 extends Enemy
 	
 	override public function update(elapsed:Float):Void
 	{
-		_brain.update();
-		super.update(elapsed);
+		if (isOnScreen())
+		{
+			_brain.update();
+			super.update(elapsed);
+		}
 	}
 	
 	public function idle():Void

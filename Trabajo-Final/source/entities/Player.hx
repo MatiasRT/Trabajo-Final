@@ -3,8 +3,10 @@ package entities;
 import entities.Player.States;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.effects.FlxFlicker;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.system.FlxAssets.FlxGraphicAsset;
+import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import entities.Shoot;
 import entities.Guide;
@@ -27,6 +29,7 @@ class Player extends FlxSprite
 	private var pU:PowerUps;
 	private var doubleShoot:Bool;
 	private var verif:Bool;
+	private var lives(get, null):Int;
 	public var currentState(get, null):States;
 	
 	public function new(g:Guide,?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
@@ -46,6 +49,7 @@ class Player extends FlxSprite
 		height = height / 2;
 		offset.y = 20;
 		currentState = States.IDLE;
+		lives = 1;
 	}
 	
 	override public function update(elapsed:Float)
@@ -102,22 +106,6 @@ class Player extends FlxSprite
 				velocity.x -= Reg.velPlayer;
 			}
 		}
-		
-		/*if (FlxG.keys.pressed.UP)
-		{
-			if (y > 0)
-			{
-				velocity.y -= Reg.velPlayer;
-			}
-		}
-		
-		if (FlxG.keys.pressed.DOWN)
-		{	
-			if (y<FlxG.height-this.height)
-			{
-				velocity.y += Reg.velPlayer;
-			}
-		}*/
 	}
 	
 	private function shoot():Void
@@ -149,13 +137,58 @@ class Player extends FlxSprite
 		if (FlxG.keys.justPressed.Z)
 		{
 			if (powerUp == 1)
+			{	
 				pU.speedUp();
+				var speed = new FlxText(x, y , 0, "SPEED", 18, true);
+				FlxG.state.add(speed);
+			}
 			
 			if (powerUp == 2)
+			{
 				doubleShoot = true;
+				var double = new FlxText(x, y , 0, "DOUBLE SHOOT", 18, true);
+				FlxG.state.add(double);
+			}
 			
 			powerUp = 0;
 		}
+	}
+	
+	
+	
+	
+	
+
+	public function die():Void
+	{
+		lives--;
+		if (lives<=0)
+		{
+			this.kill();
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	/*public function die():Void
+	{
+		this.kill();
+		if (!FlxFlicker.isFlickering(this))
+		{
+			lifes -= 1;
+			if (lifes >= 0)
+				FlxFlicker.flicker(this, 3, 0.08, true, true);
+		}
+	}*/
+	
+	public function get_lives():Int
+	{
+		return lives;
 	}
 	
 	public function getPowerUp():Void
