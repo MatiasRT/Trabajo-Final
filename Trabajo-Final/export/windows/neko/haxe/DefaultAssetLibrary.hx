@@ -69,6 +69,15 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		Font.registerFont (__ASSET__flixel_fonts_nokiafc22_ttf);
 		Font.registerFont (__ASSET__flixel_fonts_monsterrat_ttf);
 		
@@ -78,6 +87,15 @@ class DefaultAssetLibrary extends AssetLibrary {
 		#if (windows || mac || linux)
 		
 		var useManifest = false;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
 		useManifest = true;
 		useManifest = true;
 		useManifest = true;
@@ -603,6 +621,15 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		openfl.text.Font.registerFont (__ASSET__OPENFL__flixel_fonts_nokiafc22_ttf);
 		openfl.text.Font.registerFont (__ASSET__OPENFL__flixel_fonts_monsterrat_ttf);
 		
@@ -620,12 +647,30 @@ class DefaultAssetLibrary extends AssetLibrary {
 		type.set ("assets/data/Level.oep", AssetType.TEXT);
 		path.set ("assets/images/Death_Star.png", "assets/images/Death_Star.png");
 		type.set ("assets/images/Death_Star.png", AssetType.IMAGE);
+		path.set ("assets/images/Enemy1.png", "assets/images/Enemy1.png");
+		type.set ("assets/images/Enemy1.png", AssetType.IMAGE);
+		path.set ("assets/images/Enemy2.png", "assets/images/Enemy2.png");
+		type.set ("assets/images/Enemy2.png", AssetType.IMAGE);
+		path.set ("assets/images/Enemy3.png", "assets/images/Enemy3.png");
+		type.set ("assets/images/Enemy3.png", AssetType.IMAGE);
+		path.set ("assets/images/Fondo.png", "assets/images/Fondo.png");
+		type.set ("assets/images/Fondo.png", AssetType.IMAGE);
 		path.set ("assets/images/Galaxy.jpg", "assets/images/Galaxy.jpg");
 		type.set ("assets/images/Galaxy.jpg", AssetType.IMAGE);
 		path.set ("assets/images/images-go-here.txt", "assets/images/images-go-here.txt");
 		type.set ("assets/images/images-go-here.txt", AssetType.TEXT);
+		path.set ("assets/images/Jedi.jpg", "assets/images/Jedi.jpg");
+		type.set ("assets/images/Jedi.jpg", AssetType.IMAGE);
+		path.set ("assets/images/Jedi.png", "assets/images/Jedi.png");
+		type.set ("assets/images/Jedi.png", AssetType.IMAGE);
+		path.set ("assets/images/Powerup.png", "assets/images/Powerup.png");
+		type.set ("assets/images/Powerup.png", AssetType.IMAGE);
 		path.set ("assets/images/prueba.png", "assets/images/prueba.png");
 		type.set ("assets/images/prueba.png", AssetType.IMAGE);
+		path.set ("assets/images/Sith.png", "assets/images/Sith.png");
+		type.set ("assets/images/Sith.png", AssetType.IMAGE);
+		path.set ("assets/images/star-wars-logo.jpg", "assets/images/star-wars-logo.jpg");
+		type.set ("assets/images/star-wars-logo.jpg", AssetType.IMAGE);
 		path.set ("assets/images/Tiles-TP-Final.png", "assets/images/Tiles-TP-Final.png");
 		type.set ("assets/images/Tiles-TP-Final.png", AssetType.IMAGE);
 		path.set ("assets/images/Xwing.png", "assets/images/Xwing.png");
@@ -663,13 +708,40 @@ class DefaultAssetLibrary extends AssetLibrary {
 		id = "assets/images/Death_Star.png";
 		path.set (id, id);
 		type.set (id, AssetType.IMAGE);
+		id = "assets/images/Enemy1.png";
+		path.set (id, id);
+		type.set (id, AssetType.IMAGE);
+		id = "assets/images/Enemy2.png";
+		path.set (id, id);
+		type.set (id, AssetType.IMAGE);
+		id = "assets/images/Enemy3.png";
+		path.set (id, id);
+		type.set (id, AssetType.IMAGE);
+		id = "assets/images/Fondo.png";
+		path.set (id, id);
+		type.set (id, AssetType.IMAGE);
 		id = "assets/images/Galaxy.jpg";
 		path.set (id, id);
 		type.set (id, AssetType.IMAGE);
 		id = "assets/images/images-go-here.txt";
 		path.set (id, id);
 		type.set (id, AssetType.TEXT);
+		id = "assets/images/Jedi.jpg";
+		path.set (id, id);
+		type.set (id, AssetType.IMAGE);
+		id = "assets/images/Jedi.png";
+		path.set (id, id);
+		type.set (id, AssetType.IMAGE);
+		id = "assets/images/Powerup.png";
+		path.set (id, id);
+		type.set (id, AssetType.IMAGE);
 		id = "assets/images/prueba.png";
+		path.set (id, id);
+		type.set (id, AssetType.IMAGE);
+		id = "assets/images/Sith.png";
+		path.set (id, id);
+		type.set (id, AssetType.IMAGE);
+		id = "assets/images/star-wars-logo.jpg";
 		path.set (id, id);
 		type.set (id, AssetType.IMAGE);
 		id = "assets/images/Tiles-TP-Final.png";
@@ -725,6 +797,15 @@ class DefaultAssetLibrary extends AssetLibrary {
 		#if (windows || mac || linux)
 		
 		var useManifest = false;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
+		useManifest = true;
 		useManifest = true;
 		useManifest = true;
 		useManifest = true;
@@ -1483,6 +1564,15 @@ class DefaultAssetLibrary extends AssetLibrary {
 
 
 
+
+
+
+
+
+
+
+
+
 @:keep @:bind #if display private #end class __ASSET__flixel_sounds_beep_ogg extends null { }
 @:keep @:bind #if display private #end class __ASSET__flixel_sounds_flixel_ogg extends null { }
 @:keep @:bind #if display private #end class __ASSET__flixel_fonts_nokiafc22_ttf extends null { }
@@ -1492,6 +1582,15 @@ class DefaultAssetLibrary extends AssetLibrary {
 
 
 #elseif html5
+
+
+
+
+
+
+
+
+
 
 
 

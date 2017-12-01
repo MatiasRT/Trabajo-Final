@@ -1,8 +1,11 @@
 package states;
 
 import flixel.FlxG;
+import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.text.FlxText;
 import flixel.ui.FlxButton;
+import flixel.util.FlxColor;
 
 /**
  * ...
@@ -14,13 +17,16 @@ class LoseState extends FlxState
 	override public function create()
 	{
 		FlxG.mouse.visible = true;
+		bgColor = FlxColor.BLACK;
 		var x:Int = Math.floor(FlxG.width / 2 - 40);
-		var restart = new FlxButton(x, 300, "Restart the Game", returnToGame);
-		
+		var perdiste = new FlxText (35, 20, 0, "¡You Lose!", 28); 
+		var restart = new FlxButton(x, 300, "Restart", returnToGame);
+		var lose = new FlxSprite(x - 210, 100, AssetPaths.Sith__png);
 		var botonSalir = new FlxButton(x, 400, "Exit Game", salida);
-		
+		add(lose);
 		add(restart);
 		add(botonSalir);
+		add(perdiste);
 	}
 	
 	private function returnToGame()

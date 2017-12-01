@@ -29,6 +29,7 @@ class PauseSubState extends FlxSubState
 	private function returnToGame()
 	{
 		close();
+		FlxG.mouse.visible = false;
 	}
 	
 	private function salida()

@@ -26,7 +26,7 @@ class Enemy2 extends Enemy
 	{
 		super(pU,X, Y, SimpleGraphic);	
 		makeGraphic(16, 16, FlxColor.WHITE);
-		
+		loadGraphic(AssetPaths.Enemy2__png, false, 32, 32);
 		_brain = new FSM(idle);
 		_idleTmr = 0;
 		playerPos = FlxPoint.get();

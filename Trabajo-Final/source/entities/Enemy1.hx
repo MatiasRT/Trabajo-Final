@@ -19,8 +19,9 @@ class Enemy1 extends Enemy
 		super(pU,X, Y, SimpleGraphic);
 		eShoot = eS;
 		makeGraphic(16, 16, FlxColor.RED);
+		loadGraphic(AssetPaths.Enemy1__png, false, 64, 64);
 		yOriginal = Y;
-		/*velocity.y = Reg.velEnemy;*/
+		velocity.y = Reg.velEnemy;
 		updateHitbox();
 	}
 	

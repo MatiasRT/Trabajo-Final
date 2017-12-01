@@ -6,6 +6,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
+import flixel.addons.effects.FlxTrail;
 
 /**
  * ...
@@ -18,6 +19,8 @@ class Enemy3 extends Enemy
 	{
 		super(pU,X, Y, SimpleGraphic);
 		makeGraphic(16, 16, FlxColor.WHITE);
+		loadGraphic(AssetPaths.Enemy3__png, false, 64, 44);
+		scale.set(0.7, 0.7);
 		movement();
 	}
 	

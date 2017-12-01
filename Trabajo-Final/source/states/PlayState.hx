@@ -1,11 +1,13 @@
 package states;
 
+import entities.BossShoot;
 import entities.Shoot;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.FlxSubState;
 import flixel.addons.display.FlxBackdrop;
 import flixel.addons.editors.ogmo.FlxOgmoLoader;
+import flixel.addons.effects.FlxTrail;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.tile.FlxTilemap;
 import flixel.util.FlxColor;
@@ -35,15 +37,20 @@ class PlayState extends FlxState
 	private var puntos:Int;
 	private var powerUps:FlxTypedGroup<PowerUps>;
 	private var powerupsBar:FlxBar;
+	private var bossBar:FlxBar;
+	private var bShoot:FlxTypedGroup<BossShoot>;
+	private var background:FlxBackdrop;
+	//private var trail:FlxTrail;
 	
 	override public function create():Void
 	{
 		super.create();
+		FlxG.mouse.visible = false;
 		
 		/* OGMO */
 		loader = new FlxOgmoLoader(AssetPaths.level__oel);
 		tileMap = loader.loadTilemap(AssetPaths.Tiles_TP_Final__png, 16, 16, "Tiles");
-		bgColor = FlxColor.BLACK;
+		//bgColor = FlxColor.BLACK;
 		
 		
 		/* GUIDE */
@@ -55,28 +62,31 @@ class PlayState extends FlxState
 		
 		/* ENEMY */
 		eShoot = new FlxTypedGroup<Shoot>();
+		bShoot = new FlxTypedGroup<BossShoot>();
 		enemies = new FlxTypedGroup<Enemy>();
 		enemiesFollow = new FlxTypedGroup<Enemy2>();
 		enemiesTween = new FlxTypedGroup<Enemy3>();
-		boss = new Boss();
+		boss = new Boss(bShoot);
 		
 		/* COLLISION */
 		FlxG.worldBounds.set(0, 0, tileMap.width, tileMap.height);
 		
 		/* HUD */
-		powerupsBar = new FlxBar(520, 5, FlxBarFillDirection.LEFT_TO_RIGHT, 100, 20, powerUps, "powerUps", 0, 2, true);
-		powerupsBar.scrollFactor.x = 0;
-		powerupsBar.scrollFactor.y = 0;
+		//powerupsBar = new FlxBar(520, 5, FlxBarFillDirection.LEFT_TO_RIGHT, 100, 20, powerUps, "powerUps", 0, 2, true);
+		//powerupsBar.scrollFactor.x = 0;
+		//powerupsBar.scrollFactor.y = 0;
 		score = new FlxText (0, 0, 0, "SCORE", 16);
 		score.scrollFactor.x = 0;
 		score.scrollFactor.y = 0;
 		puntos = 0;
-		FlxG.mouse.visible = false;
+		background = new FlxBackdrop(AssetPaths.Fondo__png);
+		
 		
 		/* ADDS */
+		add(background);
 		add(tileMap);
 		add(score);
-		add(powerupsBar);
+		//add(powerupsBar);
 		
 		/* ENTITY CREATOR */
 		loader.loadEntities(entityCreator, "Entities");
@@ -96,6 +106,7 @@ class PlayState extends FlxState
 		FlxG.collide(boss, player, collideBossPlayer);
 		FlxG.collide(enemiesFollow, player, collideEnemy2Player);
 		FlxG.collide(enemiesTween, player, collideEnemy3Player);
+		FlxG.collide(bShoot, player, collideBossBulletPlayer);
 		scoreInScreen();
 		bossBattle();
 		checkLose();
@@ -152,11 +163,13 @@ class PlayState extends FlxState
 				var enemy2 = new Enemy2(powerUps);
 				enemy2.x = x;
 				enemy2.y = y;
+				//trail = new FlxTrail(enemy2, null, 100, 10, 0.5, 0.2);
 				enemiesFollow.add(enemy2);
 				add(enemiesFollow);
+				//add(trail);
 			
 			case "Enemy-3":
-				var enemy3 = new Enemy3(powerUps,x, y);
+				var enemy3 = new Enemy3(powerUps, x, y);
 				enemiesTween.add(enemy3);
 				add(enemiesTween);
 			
@@ -206,7 +219,7 @@ class PlayState extends FlxState
 			boss.kill();
 			if (puntos > Reg.highscore)
 				Reg.highscore = puntos;
-			//FlxG.switchState(new WinState());
+			FlxG.switchState(new WinState());
 		}
 	}
 	
@@ -240,6 +253,14 @@ class PlayState extends FlxState
 		player.die();
 	}
 	
+	private function collideBossBulletPlayer(b:BossShoot, p:Player):Void
+	{
+		bShoot.remove(b, true);
+		player.die();
+	}
+	
+	
+	/* CHECK IF PLAYER IS DEAD */
 	private function checkLose():Void
 	{
 		if (player.get_lives()<=0)
@@ -248,11 +269,6 @@ class PlayState extends FlxState
 			FlxG.switchState(new LoseState());
 		}
 	}
-	
-	
-	
-	
-	
 	
 	/* PLAYER COLISSION WITH OBJECTS */
 	private function collidePlayerPowerUps(pU:PowerUps, p:Player):Void
@@ -277,6 +293,9 @@ class PlayState extends FlxState
 	{
 		if (FlxG.overlap(guide, boss))
 		{
+			bossBar = new FlxBar(0, 700, FlxBarFillDirection.LEFT_TO_RIGHT, 640, 20, boss, "vidas", 0, 200, true);
+			bossBar.scrollFactor.x = 0;
+			bossBar.scrollFactor.y = 0;
 			guide.velocity.y = 0;
 			boss.velocity.x = -50;
 			guide.kill();
@@ -285,6 +304,7 @@ class PlayState extends FlxState
 			//Reg.velPlayer = 0;
 			player.verificator();
 			//boss.y = 656;
+			add(bossBar);
 		}
 	}
 }
